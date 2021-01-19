@@ -6,6 +6,7 @@ class FaviconImageGenerator extends FaviconGenerator
   private $faviconFilePath;
   private $appleFilePath;
   private $appleStartupImageProportion;
+  private $faviconFileExt = 'png';
 
   public function __construct($applicationName, $faviconDir, $faviconFilePath, $appleFilePath, $appleStartupImageProportion = 20.0)
   {
@@ -13,6 +14,8 @@ class FaviconImageGenerator extends FaviconGenerator
     $this->faviconFilePath = $faviconFilePath;
     $this->appleFilePath = $appleFilePath;
     $this->appleStartupImageProportion = $appleStartupImageProportion;
+    $info = pathinfo($faviconFilePath);
+    $this->faviconFileExt = $info['extension'];
   }
 
   public function generate()
@@ -156,7 +159,7 @@ class FaviconImageGenerator extends FaviconGenerator
     foreach ($this->apple as $ap) {
       $width = $ap['width'];
       $height = $ap['height'];
-      $extensao = $ap['ext'];
+      $extensao = $this->faviconFileExt;
       $fileName = $ap['name'].'-'.$width.'x'.$height;
       $background = $ap['background'];
       self::resizeImage($this->faviconFilePath, $this->faviconDir.$fileName, $width, $height, $background);
@@ -170,7 +173,7 @@ class FaviconImageGenerator extends FaviconGenerator
     foreach ($this->appleStartupScreens as $ap) {
       $width = $ap['width'];
       $height = $ap['height'];
-      $extensao = $ap['ext'];
+      $extensao = $this->faviconFileExt;
       $fileName = $ap['name'].'-'.$width.'x'.$height;
       $background = $ap['background'];
       $proportion = $proportion ?? $ap['proportion'];
@@ -183,7 +186,7 @@ class FaviconImageGenerator extends FaviconGenerator
     foreach ($this->ms as $m) {
       $width = $m['width'];
       $height = $m['height'];
-      $extensao = $m['ext'];
+      $extensao = $this->faviconFileExt;
       $fileName = $m['content'].'-'.$width.'x'.$height;
       $background = $m['background'];
       self::resizeImage($this->faviconFilePath, $this->faviconDir.$fileName, $width, $height, $background);
@@ -195,7 +198,7 @@ class FaviconImageGenerator extends FaviconGenerator
     foreach ($this->android as $a) {
       $width = $a['width'];
       $height = $a['height'];
-      $extensao = $a['ext'];
+      $extensao = $this->faviconFileExt;
       $fileName = $a['name'].'-'.$width.'x'.$height;
       $background = $a['background'];
       self::resizeImage($this->faviconFilePath, $this->faviconDir.$fileName, $width, $height, $background);
@@ -215,11 +218,11 @@ class FaviconImageGenerator extends FaviconGenerator
         $width = $a['width'];
         $height = $a['height'];
         $sizes = $width.'x'.$height;
-        $ext = $a['ext'];
+        $ext = $this->faviconFileExt;
         $density = $a['density'];
         $fileName = $a['name'].'-'.$sizes.'.'.$ext;
         $type = $a['type'].'/'.$ext;
-        $icon['src'] = '/'.$path.$fileName;
+        $icon['src'] = '/'.$path.$fileName . $this->v;
         $icon['sizes'] = $sizes;
         $icon['type'] = $type;
         $icon['density'] = $density;

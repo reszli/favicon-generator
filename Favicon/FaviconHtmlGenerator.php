@@ -6,14 +6,19 @@ class FaviconHtmlGenerator extends FaviconGenerator
   private $msapplicationTileColor;
   private $themeColor;
   private $titleBarColor;
+  private $faviconPath;
+  private $faviconFileExt;
 
-  public function __construct($applicationName = 'Site Name', $faviconDir = 'assets/icons/', $msapplicationTileColor = '#FFF', $themeColor = '#FFF', $titleBarColor = '#FFF')
+  public function __construct($applicationName = 'Site Name', $faviconDir = 'assets/icons/', $msapplicationTileColor = '#FFF', $themeColor = '#FFF', $titleBarColor = '#FFF', $faviconPath, $faviconFileExt = 'png')
   {
     parent::__construct($applicationName, $faviconDir);
     $this->applicationName = $applicationName;
     $this->msapplicationTileColor = $msapplicationTileColor;
     $this->themecolor = $themeColor;
     $this->titlebarColor = $titleBarColor;
+    $this->faviconPath = $faviconPath;
+    $info = pathinfo($this->faviconPath);
+    $this->faviconFileExt = $info['extension'];
   }
 
   public function generateMeta()
@@ -47,7 +52,7 @@ class FaviconHtmlGenerator extends FaviconGenerator
       $path = $this->faviconDir;
       $width = $ap['width'];
       $height = $ap['height'];
-      $fileName = $ap['name'].'-'.$width.'x'.$height.'.'.$ap['ext'];
+      $fileName = $ap['name'].'-'.$width.'x'.$height.'.'.$this->faviconFileExt;
       $sizes = $width.'x'.$height;
       $html .= '<link rel="'.$ap['rel'].'" sizes="'.$sizes.'" href="'.$path.$fileName.$this->v.'" />';
     }
@@ -60,7 +65,7 @@ class FaviconHtmlGenerator extends FaviconGenerator
     foreach ($this->appleStartupScreens as $aSS) {
       $width = $aSS['width'];
       $height = $aSS['height'];
-      $fileName = $aSS['name'].'-'.$width.'x'.$height.'.'.$aSS['ext'];
+      $fileName = $aSS['name'].'-'.$width.'x'.$height.'.'.$this->faviconFileExt;
       $path = $this->faviconDir;
       $html .= '<link href="'.$path.$fileName.$this->v.'" media="'.$aSS['media'].'" rel="'.$aSS['rel'].'" />';
     }
@@ -74,7 +79,7 @@ class FaviconHtmlGenerator extends FaviconGenerator
       $path = $this->faviconDir;
       $width = $m['width'];
       $height = $m['height'];
-      $fileName = $m['content'].'-'.$width.'x'.$height.'.'.$m['ext'];
+      $fileName = $m['content'].'-'.$width.'x'.$height.'.'.$this->faviconFileExt;
       $html .= '<meta name="'.$m['name'].'" content="'.$path.$fileName.$this->v.'" />';
     }
     return $html;
@@ -87,7 +92,7 @@ class FaviconHtmlGenerator extends FaviconGenerator
       $path = $this->faviconDir;
       $width = $a['width'];
       $height = $a['height'];
-      $fileName = $a['name'].'-'.$width.'x'.$height.'.'.$a['ext'];
+      $fileName = $a['name'].'-'.$width.'x'.$height.'.'.$this->faviconFileExt;
       $html .= '<link rel="'.$a['rel'].'" type="'.$a['type'].'/'.$a['ext'].'" href="'.$path.$fileName.$this->v.'" sizes="'.$width.'x'.$height.'" />';
     }
     return $html;
