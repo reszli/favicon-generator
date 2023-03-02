@@ -222,7 +222,7 @@ class FaviconImageGenerator extends FaviconGenerator
         $density = $a['density'];
         $fileName = $a['name'].'-'.$sizes.'.'.$ext;
         $type = $a['type'].'/'.$ext;
-        $icon['src'] = '/'.$path.$fileName;
+        $icon['src'] = '/'.$path.$fileName . $this->v;
         $icon['sizes'] = $sizes;
         $icon['type'] = $type;
         $icon['density'] = $density;
